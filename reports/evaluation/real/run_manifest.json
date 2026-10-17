@@ -1,0 +1,330 @@
+{
+  "run_id": "20261017T173852Z-64ef33",
+  "data_mode": "real",
+  "synthetic": false,
+  "created_at": "2026-10-17T17:38:52.933367+00:00",
+  "git": {
+    "commit": "3f7f80b1a3711f66eb465dad3e9ea13821c55987",
+    "dirty": true
+  },
+  "versions": {
+    "python": "3.12.13",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0"
+  },
+  "random_seed": 20241017,
+  "splits": {
+    "mode": "real",
+    "status": "frozen",
+    "sha256": "64ef33ebf2ae99ec75491f3a6ec67fc8e057ee677e7525f4c2d662bef1d8d812",
+    "blocks": {
+      "train": {
+        "start": "2017-01-01",
+        "end_exclusive": "2018-01-01"
+      },
+      "selection": {
+        "start": "2018-01-01",
+        "end_exclusive": "2018-03-01"
+      },
+      "calibration": {
+        "start": "2018-03-01",
+        "end_exclusive": "2018-05-01"
+      },
+      "test": {
+        "start": "2018-05-01",
+        "end_exclusive": "2018-08-01"
+      }
+    }
+  },
+  "feature_version": "v1",
+  "feature_sha256": "2da7b6cb19f0e5a6fae90318dabe185dcdafccbcf1051e2fd20ad2d6f065991d",
+  "feature_sql_sha256": "3047d2bd1bdf2887a525cbe71bb2869f8cc882689aee07c2967e9ea3191871fd",
+  "features": [
+    "n_items",
+    "n_distinct_products",
+    "n_distinct_sellers",
+    "item_value_brl",
+    "freight_value_brl",
+    "freight_to_item_value_ratio",
+    "promised_lead_days",
+    "approval_delay_hours",
+    "shipping_limit_days_after_approval",
+    "approval_weekday",
+    "approval_hour",
+    "customer_state",
+    "primary_seller_state",
+    "any_seller_same_state",
+    "max_seller_distance_km",
+    "main_category",
+    "n_distinct_categories",
+    "total_weight_g",
+    "max_product_volume_cm3",
+    "sh_known_outcomes_total_min",
+    "sh_known_outcomes_90d_min",
+    "sh_late_rate_90d_mean",
+    "sh_late_rate_90d_max",
+    "sh_mean_positive_delay_90d_mean",
+    "sh_approvals_30d_mean",
+    "sh_approvals_30d_max",
+    "sh_any_seller_no_history"
+  ],
+  "max_prediction_at_loaded": "2018-04-30T21:29:47",
+  "label_cutoffs": {
+    "fit_step1_train": "2018-01-01T00:00:00",
+    "eval_step2_selection": "2018-03-01T00:00:00",
+    "fit_step3_train_selection": "2018-03-01T00:00:00",
+    "fit_step4_calibration": "2018-05-01T00:00:00"
+  },
+  "fit_counts": {
+    "fit_step1_train": {
+      "n": 40906,
+      "positives": 1762
+    },
+    "eval_step2_selection": {
+      "n": 10025,
+      "positives": 274
+    },
+    "fit_step3_train_selection": {
+      "n": 53351,
+      "positives": 2707
+    },
+    "fit_step4_calibration": {
+      "n": 11178,
+      "positives": 1243
+    }
+  },
+  "eligible_but_not_yet_delivered_at_cutoff": {
+    "fit_step1_train": 2439,
+    "eval_step2_selection": 3500,
+    "fit_step3_train_selection": 3519,
+    "fit_step4_calibration": 2529
+  },
+  "grids": {
+    "constant_prevalence": [
+      {}
+    ],
+    "seller_history_baseline": [
+      {}
+    ],
+    "logistic_regression": [
+      {
+        "C": 0.01,
+        "class_weight": null
+      },
+      {
+        "C": 0.1,
+        "class_weight": null
+      },
+      {
+        "C": 1.0,
+        "class_weight": null
+      },
+      {
+        "C": 0.1,
+        "class_weight": "balanced"
+      }
+    ],
+    "lightgbm": [
+      {
+        "num_leaves": 15,
+        "learning_rate": 0.05,
+        "n_estimators": 200,
+        "min_child_samples": 50
+      },
+      {
+        "num_leaves": 15,
+        "learning_rate": 0.05,
+        "n_estimators": 400,
+        "min_child_samples": 50
+      },
+      {
+        "num_leaves": 31,
+        "learning_rate": 0.05,
+        "n_estimators": 200,
+        "min_child_samples": 50
+      },
+      {
+        "num_leaves": 31,
+        "learning_rate": 0.05,
+        "n_estimators": 400,
+        "min_child_samples": 50
+      },
+      {
+        "num_leaves": 15,
+        "learning_rate": 0.05,
+        "n_estimators": 200,
+        "min_child_samples": 200
+      },
+      {
+        "num_leaves": 31,
+        "learning_rate": 0.05,
+        "n_estimators": 400,
+        "min_child_samples": 200
+      },
+      {
+        "num_leaves": 63,
+        "learning_rate": 0.03,
+        "n_estimators": 400,
+        "min_child_samples": 100
+      },
+      {
+        "num_leaves": 15,
+        "learning_rate": 0.1,
+        "n_estimators": 150,
+        "min_child_samples": 100
+      }
+    ]
+  },
+  "chosen_config_index": {
+    "constant_prevalence": 0,
+    "seller_history_baseline": 0,
+    "logistic_regression": 3,
+    "lightgbm": 0
+  },
+  "chosen_params": {
+    "constant_prevalence": {},
+    "seller_history_baseline": {},
+    "logistic_regression": {
+      "C": 0.1,
+      "class_weight": "balanced"
+    },
+    "lightgbm": {
+      "num_leaves": 15,
+      "learning_rate": 0.05,
+      "n_estimators": 200,
+      "min_child_samples": 50
+    }
+  },
+  "selection_ap": {
+    "constant_prevalence": 0.027331670822942643,
+    "seller_history_baseline": 0.03129399152624143,
+    "logistic_regression": 0.07026183375672995,
+    "lightgbm": 0.055164303035089304
+  },
+  "selected_model": "logistic_regression",
+  "selection_rule": "highest AP on the selection block (labels known before calibration start); ties -> simpler model",
+  "calibration": {
+    "seller_history_baseline": {
+      "slope": 0.02094368428243857,
+      "intercept": -1.9742196932461653,
+      "calibration_block_raw": {
+        "n": 11178,
+        "positives": 1243,
+        "prevalence": 0.11120057255322956,
+        "average_precision": 0.11795209196689152,
+        "roc_auc": 0.5206987818244171,
+        "brier": 0.10798276553554134,
+        "log_loss": 0.6587729814572147
+      },
+      "calibration_block_calibrated": {
+        "n": 11178,
+        "positives": 1243,
+        "prevalence": 0.11120057255322956,
+        "average_precision": 0.11795209196689152,
+        "roc_auc": 0.5206987818244171,
+        "brier": 0.09873012714615986,
+        "log_loss": 0.3484750675814275
+      }
+    },
+    "logistic_regression": {
+      "slope": 0.813412093991561,
+      "intercept": -2.136236122155715,
+      "calibration_block_raw": {
+        "n": 11178,
+        "positives": 1243,
+        "prevalence": 0.11120057255322956,
+        "average_precision": 0.22247162869805923,
+        "roc_auc": 0.6892255007508581,
+        "brier": 0.23344806770729154,
+        "log_loss": 0.6631435934878706
+      },
+      "calibration_block_calibrated": {
+        "n": 11178,
+        "positives": 1243,
+        "prevalence": 0.11120057255322956,
+        "average_precision": 0.22247162869805923,
+        "roc_auc": 0.6892255007508581,
+        "brier": 0.09398351289486333,
+        "log_loss": 0.32612053488455545
+      }
+    },
+    "lightgbm": {
+      "slope": 0.8877009967216855,
+      "intercept": 0.5213493399238887,
+      "calibration_block_raw": {
+        "n": 11178,
+        "positives": 1243,
+        "prevalence": 0.11120057255322956,
+        "average_precision": 0.22028486209164705,
+        "roc_auc": 0.6782350361824911,
+        "brier": 0.09806795186926963,
+        "log_loss": 0.3545452883308265
+      },
+      "calibration_block_calibrated": {
+        "n": 11178,
+        "positives": 1243,
+        "prevalence": 0.11120057255322956,
+        "average_precision": 0.22028486209164705,
+        "roc_auc": 0.6782350361824911,
+        "brier": 0.09403461337975802,
+        "log_loss": 0.32792030334995426
+      }
+    }
+  },
+  "interpretation_model": "logistic_regression",
+  "ablations": {
+    "logistic_regression__no_catalog_static": [
+      "n_items",
+      "n_distinct_products",
+      "n_distinct_sellers",
+      "item_value_brl",
+      "freight_value_brl",
+      "freight_to_item_value_ratio",
+      "promised_lead_days",
+      "approval_delay_hours",
+      "shipping_limit_days_after_approval",
+      "approval_weekday",
+      "approval_hour",
+      "customer_state",
+      "primary_seller_state",
+      "any_seller_same_state",
+      "max_seller_distance_km",
+      "sh_known_outcomes_total_min",
+      "sh_known_outcomes_90d_min",
+      "sh_late_rate_90d_mean",
+      "sh_late_rate_90d_max",
+      "sh_mean_positive_delay_90d_mean",
+      "sh_approvals_30d_mean",
+      "sh_approvals_30d_max",
+      "sh_any_seller_no_history"
+    ],
+    "lightgbm__no_catalog_static": [
+      "n_items",
+      "n_distinct_products",
+      "n_distinct_sellers",
+      "item_value_brl",
+      "freight_value_brl",
+      "freight_to_item_value_ratio",
+      "promised_lead_days",
+      "approval_delay_hours",
+      "shipping_limit_days_after_approval",
+      "approval_weekday",
+      "approval_hour",
+      "customer_state",
+      "primary_seller_state",
+      "any_seller_same_state",
+      "max_seller_distance_km",
+      "sh_known_outcomes_total_min",
+      "sh_known_outcomes_90d_min",
+      "sh_late_rate_90d_mean",
+      "sh_late_rate_90d_max",
+      "sh_mean_positive_delay_90d_mean",
+      "sh_approvals_30d_mean",
+      "sh_approvals_30d_max",
+      "sh_any_seller_no_history"
+    ]
+  },
+  "models_sha256": "f5e87bb3743dfd26cc021fc920a32978824b3b033cfd91e5b13e30a16f8cf9f9"
+}

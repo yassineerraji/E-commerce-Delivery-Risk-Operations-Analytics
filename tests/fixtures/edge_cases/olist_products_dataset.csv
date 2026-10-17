@@ -1,0 +1,5 @@
+product_id,product_category_name,product_name_lenght,product_description_lenght,product_photos_qty,product_weight_g,product_length_cm,product_height_cm,product_width_cm
+p1,cama_mesa_banho,40,300,1,500,20,10,15
+p2,beleza_saude,35,200,2,250,10,5,5
+p3,,,,,800,30,20,10
+p4,pc_gamer,50,500,3,2000,40,30,20

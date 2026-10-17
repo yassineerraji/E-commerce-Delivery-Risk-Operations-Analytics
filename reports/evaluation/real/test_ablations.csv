@@ -1,0 +1,3 @@
+model,n_features,average_precision,precision_at_10,lift_at_10
+logistic_regression__no_catalog_static,23,0.07488287350206232,0.08866736621196222,2.3531429849149585
+lightgbm__no_catalog_static,23,0.0917198776299773,0.10860440713536201,2.8822520584461326

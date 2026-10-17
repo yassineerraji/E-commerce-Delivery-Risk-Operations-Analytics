@@ -1,0 +1,275 @@
+{
+  "mode": "real",
+  "synthetic": false,
+  "measured_at": "2026-10-17T17:41:57.697415+00:00",
+  "repeats": 5,
+  "protocol": "1 warm-up execution, then N timed executions; caches not flushed (warm)",
+  "cases": [
+    {
+      "key": "Q1",
+      "title": "Seller history as-of (feature build)",
+      "purpose": "Point-in-time counts per (order, seller) \u2014 the most expensive feature query.",
+      "params": {},
+      "variants": [
+        {
+          "label": "before: LATERAL join, no index",
+          "sql_file": "seller_history_lateral.sql",
+          "setup": [],
+          "status": "timeout after 300s"
+        },
+        {
+          "label": "rewrite: window functions over event streams, no index",
+          "sql_file": "seller_history_window.sql",
+          "setup": [],
+          "status": "ok",
+          "rows": 99991,
+          "result_md5": "0bedbdf131f3d8b825ddaad44ea20af1",
+          "server_ms_median": 11321.054,
+          "server_ms_min": 10760.484,
+          "server_ms_max": 16080.906,
+          "client_ms_median": 11020.209167007124,
+          "client_ms_min": 10528.947332990356,
+          "client_ms_max": 12397.80929099652,
+          "plan_nodes": [
+            "Merge Join",
+            "  Sort",
+            "    Subquery Scan",
+            "      WindowAgg",
+            "        WindowAgg",
+            "          Sort",
+            "            Result",
+            "              Append",
+            "                Seq Scan on seller_outcome_events",
+            "                Seq Scan on targets",
+            "  Materialize",
+            "    Sort",
+            "      Subquery Scan",
+            "        WindowAgg",
+            "          Sort",
+            "            Result",
+            "              Append",
+            "                Seq Scan on seller_approval_events",
+            "                Seq Scan on targets"
+          ],
+          "shared_hit_blocks": 5440,
+          "shared_read_blocks": 0,
+          "planning_ms": 2.001
+        },
+        {
+          "label": "after: LATERAL join + composite indexes",
+          "sql_file": "seller_history_lateral.sql",
+          "setup": [
+            {
+              "ddl": "CREATE INDEX bench_outcome_asof ON bench.seller_outcome_events (seller_id, outcome_known_at) INCLUDE (is_late, positive_delay_days, order_id)",
+              "build_ms": 233.5,
+              "size_bytes": 12099584
+            },
+            {
+              "ddl": "CREATE INDEX bench_approval_asof ON bench.seller_approval_events (seller_id, approved_at) INCLUDE (order_id)",
+              "build_ms": 150.6,
+              "size_bytes": 11362304
+            }
+          ],
+          "status": "ok",
+          "rows": 99991,
+          "result_md5": "0bedbdf131f3d8b825ddaad44ea20af1",
+          "server_ms_median": 4191.308,
+          "server_ms_min": 3925.923,
+          "server_ms_max": 4584.966,
+          "client_ms_median": 3882.166374998633,
+          "client_ms_min": 3852.3010409844574,
+          "client_ms_max": 4196.389124990674,
+          "plan_nodes": [
+            "Nested Loop",
+            "  Nested Loop",
+            "    Gather Merge",
+            "      Sort",
+            "        Seq Scan on targets",
+            "    Memoize",
+            "      Aggregate",
+            "        Index Only Scan on seller_outcome_events using bench_outcome_asof",
+            "  Memoize",
+            "    Aggregate",
+            "      Index Only Scan on seller_approval_events using bench_approval_asof"
+          ],
+          "shared_hit_blocks": 905653,
+          "shared_read_blocks": 2862,
+          "planning_ms": 1.48
+        }
+      ],
+      "results_identical": true
+    },
+    {
+      "key": "Q2",
+      "title": "Operational aggregation (overview page)",
+      "purpose": "Monthly KPIs of orders containing the most frequent category in the Southeast region.",
+      "params": {
+        "start": "2000-01-01 00:00:00",
+        "end": "2100-01-01 00:00:00",
+        "regions": "['Southeast']",
+        "categories": "['bed_bath_table']"
+      },
+      "variants": [
+        {
+          "label": "before: no index",
+          "sql_file": "operational_monthly.sql",
+          "setup": [],
+          "status": "ok",
+          "rows": 21,
+          "result_md5": "874b297a666e8687078fc2b73b781dd0",
+          "server_ms_median": 18.044,
+          "server_ms_min": 17.804,
+          "server_ms_max": 19.284,
+          "client_ms_median": 18.49108299938962,
+          "client_ms_min": 17.63533300254494,
+          "client_ms_max": 18.652584025403485,
+          "plan_nodes": [
+            "Sort",
+            "  Aggregate",
+            "    Hash Join",
+            "      Seq Scan on order_summary",
+            "      Hash",
+            "        Seq Scan on order_categories"
+          ],
+          "shared_hit_blocks": 2240,
+          "shared_read_blocks": 0,
+          "planning_ms": 1.681
+        },
+        {
+          "label": "after: index on order_categories (category, order_id)",
+          "sql_file": "operational_monthly.sql",
+          "setup": [
+            {
+              "ddl": "CREATE INDEX bench_order_categories_cat ON bench.order_categories (category, order_id)",
+              "build_ms": 153.0,
+              "size_bytes": 6971392
+            }
+          ],
+          "status": "ok",
+          "rows": 21,
+          "result_md5": "874b297a666e8687078fc2b73b781dd0",
+          "server_ms_median": 13.349,
+          "server_ms_min": 13.167,
+          "server_ms_max": 13.47,
+          "client_ms_median": 13.504625007044524,
+          "client_ms_min": 13.42608398408629,
+          "client_ms_max": 14.103541994700208,
+          "plan_nodes": [
+            "Sort",
+            "  Aggregate",
+            "    Hash Join",
+            "      Seq Scan on order_summary",
+            "      Hash",
+            "        Index Only Scan on order_categories using bench_order_categories_cat"
+          ],
+          "shared_hit_blocks": 1281,
+          "shared_read_blocks": 81,
+          "planning_ms": 0.348
+        }
+      ],
+      "results_identical": true
+    },
+    {
+      "key": "Q3",
+      "title": "Filtered order extraction (risk review page)",
+      "purpose": "First page of one day's scored orders for one run and model, ranked by score.",
+      "params": {
+        "run": "20261017T173852Z-64ef33",
+        "model": "lightgbm",
+        "day": "2018-07-05"
+      },
+      "variants": [
+        {
+          "label": "before: no index",
+          "sql_file": "risk_review_day.sql",
+          "setup": [],
+          "status": "ok",
+          "rows": 15,
+          "result_md5": "5b7aafeda9ecf209ed652692265064fc",
+          "server_ms_median": 10.46,
+          "server_ms_min": 10.128,
+          "server_ms_max": 35.105,
+          "client_ms_median": 11.32716701249592,
+          "client_ms_min": 11.186040996108204,
+          "client_ms_max": 20.59241698589176,
+          "plan_nodes": [
+            "Limit",
+            "  WindowAgg",
+            "    WindowAgg",
+            "      Sort",
+            "        Seq Scan on predictions"
+          ],
+          "shared_hit_blocks": 2240,
+          "shared_read_blocks": 0,
+          "planning_ms": 0.55
+        },
+        {
+          "label": "after: composite index matching filter + order",
+          "sql_file": "risk_review_day.sql",
+          "setup": [
+            {
+              "ddl": "CREATE INDEX bench_predictions_review ON bench.predictions (run_id, model_name, prediction_date, score_raw DESC, order_id) INCLUDE (score_calibrated)",
+              "build_ms": 336.4,
+              "size_bytes": 17694720
+            }
+          ],
+          "status": "ok",
+          "rows": 15,
+          "result_md5": "5b7aafeda9ecf209ed652692265064fc",
+          "server_ms_median": 0.217,
+          "server_ms_min": 0.198,
+          "server_ms_max": 0.224,
+          "client_ms_median": 0.6644999957643449,
+          "client_ms_min": 0.5937919777352363,
+          "client_ms_max": 0.7422500057145953,
+          "plan_nodes": [
+            "Limit",
+            "  WindowAgg",
+            "    WindowAgg",
+            "      Index Only Scan on predictions using bench_predictions_review"
+          ],
+          "shared_hit_blocks": 1,
+          "shared_read_blocks": 13,
+          "planning_ms": 0.104
+        }
+      ],
+      "results_identical": true
+    }
+  ],
+  "input_rows": {
+    "targets": 99991,
+    "seller_outcome_events": 97733,
+    "seller_approval_events": 99996,
+    "order_summary": 99441,
+    "order_categories": 99470,
+    "predictions": 133636
+  },
+  "environment": {
+    "postgres_version": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+    "settings": {
+      "effective_cache_size": "524288 8kB",
+      "jit": "on",
+      "max_parallel_workers_per_gather": "2",
+      "random_page_cost": "4",
+      "shared_buffers": "16384 8kB",
+      "work_mem": "4096 kB"
+    },
+    "host_machine": "arm64",
+    "host_os": "macOS-15.7.7-arm64-arm-64bit",
+    "host_cpu_count": 8,
+    "docker_vm_cpus": 8,
+    "docker_vm_memory_gb": 4.1
+  },
+  "dash_callbacks": [
+    {
+      "callback": "overview (all filters off)",
+      "cold_cache_ms_median": 251.08195800567046,
+      "warm_cache_ms_median": 31.583125004544854
+    },
+    {
+      "callback": "risk review (one day, at approval)",
+      "cold_cache_ms_median": 63.10287499218248,
+      "warm_cache_ms_median": 1.6698330000508577
+    }
+  ]
+}

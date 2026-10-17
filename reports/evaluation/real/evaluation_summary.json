@@ -1,0 +1,339 @@
+{
+  "run_id": "20261017T173852Z-64ef33",
+  "data_mode": "real",
+  "synthetic": false,
+  "evaluation_kind": "final",
+  "evaluated_at": "2026-10-17T17:39:32.001787+00:00",
+  "selected_model": "logistic_regression",
+  "test_block": {
+    "start": "2018-05-01",
+    "end_exclusive": "2018-08-01"
+  },
+  "test_scorable_orders": 19368,
+  "test_labelled_orders": 19055,
+  "test_late_orders": 718,
+  "label_coverage": 0.9838393225939694,
+  "population_note": "Performance measured on test orders finally delivered with an eligible outcome; canceled/unavailable/undelivered orders are scored but cannot be evaluated.",
+  "bootstrap": {
+    "n_weeks": 14,
+    "n_resamples": 500,
+    "n_skipped_undefined": 0,
+    "reference": "seller_history_baseline",
+    "intervals": {
+      "constant_prevalence|average_precision": {
+        "ci_low": 0.02084629138980181,
+        "ci_high": 0.05792893870826141,
+        "mean": 0.036920109378892695,
+        "share_above_zero": 1.0
+      },
+      "constant_prevalence|precision_at_10": {
+        "ci_low": 0.013003401782032704,
+        "ci_high": 0.04997627372627373,
+        "mean": 0.029285126129175276,
+        "share_above_zero": 1.0
+      },
+      "constant_prevalence|lift_at_10": {
+        "ci_low": 0.5702326713871061,
+        "ci_high": 0.9391739143762764,
+        "mean": 0.7816378258367649,
+        "share_above_zero": 1.0
+      },
+      "seller_history_baseline|average_precision": {
+        "ci_low": 0.021402461107588037,
+        "ci_high": 0.06568574960687489,
+        "mean": 0.04230587206393943,
+        "share_above_zero": 1.0
+      },
+      "seller_history_baseline|precision_at_10": {
+        "ci_low": 0.018519130576359493,
+        "ci_high": 0.08841985428051001,
+        "mean": 0.051010215966354695,
+        "share_above_zero": 1.0
+      },
+      "seller_history_baseline|lift_at_10": {
+        "ci_low": 0.6179407295649126,
+        "ci_high": 2.1301983007458833,
+        "mean": 1.3887279639935577,
+        "share_above_zero": 1.0
+      },
+      "logistic_regression|average_precision": {
+        "ci_low": 0.04661336868752795,
+        "ci_high": 0.11524147856784954,
+        "mean": 0.07429575479896645,
+        "share_above_zero": 1.0
+      },
+      "logistic_regression|precision_at_10": {
+        "ci_low": 0.05231799785503383,
+        "ci_high": 0.1356580863073059,
+        "mean": 0.08497805387335544,
+        "share_above_zero": 1.0
+      },
+      "logistic_regression|lift_at_10": {
+        "ci_low": 1.8195214723694122,
+        "ci_high": 3.0837019549879647,
+        "mean": 2.331122376847507,
+        "share_above_zero": 1.0
+      },
+      "lightgbm|average_precision": {
+        "ci_low": 0.07001766664628117,
+        "ci_high": 0.11482018151437305,
+        "mean": 0.09095313048371542,
+        "share_above_zero": 1.0
+      },
+      "lightgbm|precision_at_10": {
+        "ci_low": 0.07161480293881602,
+        "ci_high": 0.13888674236430423,
+        "mean": 0.10157517649935284,
+        "share_above_zero": 1.0
+      },
+      "lightgbm|lift_at_10": {
+        "ci_low": 2.226470603310244,
+        "ci_high": 3.612891120140371,
+        "mean": 2.829135511271979,
+        "share_above_zero": 1.0
+      }
+    },
+    "differences_vs_reference": {
+      "constant_prevalence|average_precision": {
+        "ci_low": -0.014280031790278293,
+        "ci_high": 0.0009905833437546497,
+        "mean": -0.005385762685046752,
+        "share_above_zero": 0.072
+      },
+      "constant_prevalence|precision_at_10": {
+        "ci_low": -0.05210441925352511,
+        "ci_high": 0.008255772499649055,
+        "mean": -0.021725089837179423,
+        "share_above_zero": 0.096
+      },
+      "constant_prevalence|lift_at_10": {
+        "ci_low": -1.4260697004249698,
+        "ci_high": 0.22167691784251783,
+        "mean": -0.6070901381567927,
+        "share_above_zero": 0.096
+      },
+      "logistic_regression|average_precision": {
+        "ci_low": 0.01501087549180651,
+        "ci_high": 0.06008871064681812,
+        "mean": 0.031989882735027016,
+        "share_above_zero": 1.0
+      },
+      "logistic_regression|precision_at_10": {
+        "ci_low": -0.006125260235572873,
+        "ci_high": 0.09521964045763955,
+        "mean": 0.03396783790700073,
+        "share_above_zero": 0.938
+      },
+      "logistic_regression|lift_at_10": {
+        "ci_low": -0.1623985886050893,
+        "ci_high": 2.2908242757933714,
+        "mean": 0.942394412853949,
+        "share_above_zero": 0.938
+      },
+      "lightgbm|average_precision": {
+        "ci_low": 0.03254895496982068,
+        "ci_high": 0.06510239485665267,
+        "mean": 0.04864725841977599,
+        "share_above_zero": 1.0
+      },
+      "lightgbm|precision_at_10": {
+        "ci_low": 0.01576098752034726,
+        "ci_high": 0.09380532193416681,
+        "mean": 0.05056496053299813,
+        "share_above_zero": 1.0
+      },
+      "lightgbm|lift_at_10": {
+        "ci_low": 0.37936106557789506,
+        "ci_high": 2.655324910830031,
+        "mean": 1.4404075472784212,
+        "share_above_zero": 1.0
+      }
+    }
+  },
+  "capacity": {
+    "constant_prevalence|0.05": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1012,
+      "effective_review_fraction": 0.052251135894258574,
+      "selected_with_known_outcome": 992,
+      "known_outcome_coverage_in_selection": 0.9802371541501976,
+      "late_among_selected_known": 23,
+      "precision_among_known": 0.023185483870967742,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 0.6153194918680923,
+      "share_of_known_late_orders_captured": 0.03203342618384401,
+      "median_daily_scorable": 197.0
+    },
+    "constant_prevalence|0.1": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1976,
+      "effective_review_fraction": 0.1020239570425444,
+      "selected_with_known_outcome": 1943,
+      "known_outcome_coverage_in_selection": 0.9832995951417004,
+      "late_among_selected_known": 61,
+      "precision_among_known": 0.03139475038600103,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 0.8331851930435231,
+      "share_of_known_late_orders_captured": 0.08495821727019498,
+      "median_daily_scorable": 197.0
+    },
+    "constant_prevalence|0.2": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 3910,
+      "effective_review_fraction": 0.20187938868236266,
+      "selected_with_known_outcome": 3845,
+      "known_outcome_coverage_in_selection": 0.9833759590792839,
+      "late_among_selected_known": 131,
+      "precision_among_known": 0.0340702210663199,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 0.9041895019759411,
+      "share_of_known_late_orders_captured": 0.18245125348189414,
+      "median_daily_scorable": 197.0
+    },
+    "seller_history_baseline|0.05": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1012,
+      "effective_review_fraction": 0.052251135894258574,
+      "selected_with_known_outcome": 982,
+      "known_outcome_coverage_in_selection": 0.9703557312252964,
+      "late_among_selected_known": 45,
+      "precision_among_known": 0.045824847250509164,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 1.2161454935354485,
+      "share_of_known_late_orders_captured": 0.06267409470752089,
+      "median_daily_scorable": 197.0
+    },
+    "seller_history_baseline|0.1": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1976,
+      "effective_review_fraction": 0.1020239570425444,
+      "selected_with_known_outcome": 1929,
+      "known_outcome_coverage_in_selection": 0.9762145748987854,
+      "late_among_selected_known": 104,
+      "precision_among_known": 0.05391394504924832,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 1.4308220374838811,
+      "share_of_known_late_orders_captured": 0.14484679665738162,
+      "median_daily_scorable": 197.0
+    },
+    "seller_history_baseline|0.2": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 3910,
+      "effective_review_fraction": 0.20187938868236266,
+      "selected_with_known_outcome": 3839,
+      "known_outcome_coverage_in_selection": 0.9818414322250639,
+      "late_among_selected_known": 185,
+      "precision_among_known": 0.04818963271685335,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 1.2789045284396108,
+      "share_of_known_late_orders_captured": 0.2576601671309192,
+      "median_daily_scorable": 197.0
+    },
+    "logistic_regression|0.05": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1012,
+      "effective_review_fraction": 0.052251135894258574,
+      "selected_with_known_outcome": 990,
+      "known_outcome_coverage_in_selection": 0.9782608695652174,
+      "late_among_selected_known": 80,
+      "precision_among_known": 0.08080808080808081,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 2.1445654314735094,
+      "share_of_known_late_orders_captured": 0.11142061281337047,
+      "median_daily_scorable": 197.0
+    },
+    "logistic_regression|0.1": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1976,
+      "effective_review_fraction": 0.1020239570425444,
+      "selected_with_known_outcome": 1933,
+      "known_outcome_coverage_in_selection": 0.9782388663967612,
+      "late_among_selected_known": 158,
+      "precision_among_known": 0.0817382307294361,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 2.169250677645411,
+      "share_of_known_late_orders_captured": 0.2200557103064067,
+      "median_daily_scorable": 197.0
+    },
+    "logistic_regression|0.2": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 3910,
+      "effective_review_fraction": 0.20187938868236266,
+      "selected_with_known_outcome": 3830,
+      "known_outcome_coverage_in_selection": 0.979539641943734,
+      "late_among_selected_known": 274,
+      "precision_among_known": 0.07154046997389034,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 1.8986123333600005,
+      "share_of_known_late_orders_captured": 0.3816155988857939,
+      "median_daily_scorable": 197.0
+    },
+    "lightgbm|0.05": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1012,
+      "effective_review_fraction": 0.052251135894258574,
+      "selected_with_known_outcome": 986,
+      "known_outcome_coverage_in_selection": 0.974308300395257,
+      "late_among_selected_known": 101,
+      "precision_among_known": 0.10243407707910751,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 2.718497686270743,
+      "share_of_known_late_orders_captured": 0.14066852367688024,
+      "median_daily_scorable": 197.0
+    },
+    "lightgbm|0.1": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 1976,
+      "effective_review_fraction": 0.1020239570425444,
+      "selected_with_known_outcome": 1927,
+      "known_outcome_coverage_in_selection": 0.9752024291497976,
+      "late_among_selected_known": 168,
+      "precision_among_known": 0.08718214841722885,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 2.3137267939976263,
+      "share_of_known_late_orders_captured": 0.233983286908078,
+      "median_daily_scorable": 197.0
+    },
+    "lightgbm|0.2": {
+      "days": 91,
+      "orders_scorable": 19368,
+      "orders_selected": 3910,
+      "effective_review_fraction": 0.20187938868236266,
+      "selected_with_known_outcome": 3824,
+      "known_outcome_coverage_in_selection": 0.978005115089514,
+      "late_among_selected_known": 284,
+      "precision_among_known": 0.07426778242677824,
+      "late_rate_all_known": 0.03768039884544739,
+      "lift_vs_known_late_rate": 1.970992470950222,
+      "share_of_known_late_orders_captured": 0.3955431754874652,
+      "median_daily_scorable": 197.0
+    }
+  },
+  "ablations": [
+    {
+      "model": "logistic_regression__no_catalog_static",
+      "n_features": 23,
+      "average_precision": 0.07488287350206232,
+      "precision_at_10": 0.08866736621196222,
+      "lift_at_10": 2.3531429849149585
+    },
+    {
+      "model": "lightgbm__no_catalog_static",
+      "n_features": 23,
+      "average_precision": 0.0917198776299773,
+      "precision_at_10": 0.10860440713536201,
+      "lift_at_10": 2.8822520584461326
+    }
+  ]
+}

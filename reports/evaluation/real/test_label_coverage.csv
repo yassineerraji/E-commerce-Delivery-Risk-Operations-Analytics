@@ -1,0 +1,12 @@
+prediction_month,outcome_population,orders
+2018-05,canceled,21
+2018-05,delivered,6940
+2018-05,not_observed,86
+2018-06,canceled,15
+2018-06,delivered,6094
+2018-06,delivered_missing_date,3
+2018-06,not_observed,45
+2018-07,canceled,39
+2018-07,delivered,6047
+2018-07,delivered_missing_date,3
+2018-07,not_observed,75

@@ -1,0 +1,52 @@
+[project]
+name = "delivery-risk"
+version = "0.1.0"
+description = "Retrospective delivery-risk and operations analytics on the public Olist e-commerce dataset (PostgreSQL + SQL + ML + Dash)."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+dependencies = [
+    "psycopg[binary]>=3.3.6,<3.4",
+    "pandas>=3.0.6,<3.1",
+    "numpy>=2.5,<2.6",
+    "scikit-learn>=1.9.1,<1.10",
+    "lightgbm>=4.7.0,<4.8",
+    "dash>=4.4.1,<4.5",
+    "plotly>=7.1.0,<7.2",
+    "pyyaml>=6.0.3,<7",
+    "matplotlib>=3.11.2,<3.12",
+    "gunicorn>=23,<26",
+]
+
+[project.scripts]
+delivery-risk = "delivery_risk.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1,<10",
+    "ruff>=0.17.1,<0.18",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.0,<0.12"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["artifacts", "reports", "data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "S608"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S608"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "integration: requires a reachable PostgreSQL test database",
+    "slow: end-to-end tests taking more than a few seconds",
+]

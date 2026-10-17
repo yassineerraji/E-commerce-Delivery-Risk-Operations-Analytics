@@ -1,0 +1,49 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17.11-bookworm
+        env:
+          POSTGRES_USER: dr_admin
+          POSTGRES_PASSWORD: ci-only-admin-password
+          POSTGRES_DB: postgres
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U dr_admin -d postgres"
+          --health-interval 3s --health-timeout 3s --health-retries 30
+    env:
+      # Throwaway credentials for the ephemeral CI container only.
+      POSTGRES_ADMIN_USER: dr_admin
+      POSTGRES_ADMIN_PASSWORD: ci-only-admin-password
+      DR_DB_HOST: 127.0.0.1
+      DR_DB_PORT: "55432"
+      DR_PIPELINE_USER: dr_pipeline
+      DR_PIPELINE_PASSWORD: ci-only-pipeline-password
+      DR_READER_USER: dr_reader
+      DR_READER_PASSWORD: ci-only-reader-password
+      DR_REQUIRE_DB: "1"  # database tests fail instead of being skipped
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.29"
+      - name: Install locked dependencies
+        run: uv sync --frozen
+      - name: Lint
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: Tests (unit, integration, temporal, dashboard) against PostgreSQL 17
+        run: uv run pytest

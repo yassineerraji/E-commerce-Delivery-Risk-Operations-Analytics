@@ -1,0 +1,15 @@
+model,config_index,params,selection_ap,selection_roc_auc,selection_precision_at_10,selection_lift_at_10
+constant_prevalence,0,{},0.027331670822942643,0.5,0.03489531405782652,1.2767354869697476
+seller_history_baseline,0,{},0.03129399152624143,0.520384209143438,0.03589232303090728,1.313213643740312
+logistic_regression,0,"{""C"": 0.01, ""class_weight"": null}",0.06346694608852924,0.6595643942938287,0.06580259222333001,2.407558346857239
+logistic_regression,1,"{""C"": 0.1, ""class_weight"": null}",0.06582987227588226,0.6603342947419953,0.06879361914257229,2.5169928171689313
+logistic_regression,2,"{""C"": 1.0, ""class_weight"": null}",0.061747735175138554,0.6575713364977727,0.06779661016949153,2.480514660398367
+logistic_regression,3,"{""C"": 0.1, ""class_weight"": ""balanced""}",0.07026183375672995,0.6631387984163332,0.06679960119641076,2.4440365036278027
+lightgbm,0,"{""num_leaves"": 15, ""learning_rate"": 0.05, ""n_estimators"": 200, ""min_child_samples"": 50}",0.055164303035089304,0.6730816304073624,0.06181455633100698,2.2616457197749815
+lightgbm,1,"{""num_leaves"": 15, ""learning_rate"": 0.05, ""n_estimators"": 400, ""min_child_samples"": 50}",0.05459979465996334,0.673580175568742,0.06480558325024925,2.3710801900866745
+lightgbm,2,"{""num_leaves"": 31, ""learning_rate"": 0.05, ""n_estimators"": 200, ""min_child_samples"": 50}",0.05364733915937977,0.6685159373509885,0.06380857427716849,2.3346020333161097
+lightgbm,3,"{""num_leaves"": 31, ""learning_rate"": 0.05, ""n_estimators"": 400, ""min_child_samples"": 50}",0.05343520360357551,0.6636805732820216,0.06480558325024925,2.3710801900866745
+lightgbm,4,"{""num_leaves"": 15, ""learning_rate"": 0.05, ""n_estimators"": 200, ""min_child_samples"": 200}",0.05212814827881117,0.6670180561679244,0.06281156530408774,2.298123876545546
+lightgbm,5,"{""num_leaves"": 31, ""learning_rate"": 0.05, ""n_estimators"": 400, ""min_child_samples"": 200}",0.0479387150501743,0.6545355258341462,0.054835493519441676,2.006298622381032
+lightgbm,6,"{""num_leaves"": 63, ""learning_rate"": 0.03, ""n_estimators"": 400, ""min_child_samples"": 100}",0.05081831382541159,0.6549753085403182,0.06281156530408774,2.298123876545546
+lightgbm,7,"{""num_leaves"": 15, ""learning_rate"": 0.1, ""n_estimators"": 150, ""min_child_samples"": 100}",0.053429719303217216,0.6718530459537372,0.06081754735792622,2.2251675630044176

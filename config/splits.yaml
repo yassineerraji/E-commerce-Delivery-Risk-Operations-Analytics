@@ -1,0 +1,43 @@
+# Temporal splits on prediction_at (= order_approved_at), half-open intervals [start, end).
+#
+# Rules (see docs/temporal_validation.md):
+# - Boundaries are fixed from date coverage only, never from model performance.
+# - A model may only be trained on labels whose availability time (actual customer delivery)
+#   is strictly before the start of the next block.
+# - Once a block definition is `frozen`, its SHA-256 is recorded in every run manifest.
+#   Changing a frozen block must be logged in docs/decision_log.md with a coverage reason.
+
+real:
+  # Proposed from the public coverage of the Olist dataset, then CONFIRMED UNCHANGED on
+  # 2026-10-17 with the coverage audit of the downloaded files (reports/data_quality/real/
+  # coverage.md), before any model was trained. Boundaries were not moved.
+  status: frozen
+  rationale: >
+    Audit (approval month): 2016 has 312 scorable orders and an empty November, so it is
+    excluded from the blocks (its deliveries still feed seller histories). Label coverage is
+    >= 97% for every month 2017-01 to 2018-08; approvals end 2018-09-03 and deliveries
+    2018-10-17. Blocks: train 44,507 scorable / 2,452 late; selection 13,815 / 1,287;
+    calibration 14,041 / 1,666; test 19,368 / 718 over 13 weeks, ending more than a month
+    before the end of the source. The calibration block's late rate (12.2%) differs from the
+    test block's (3.8%); this is an outcome shift, not a coverage issue, so it does not justify
+    moving boundaries.
+  train:       { start: "2017-01-01", end: "2018-01-01" }
+  selection:   { start: "2018-01-01", end: "2018-03-01" }
+  calibration: { start: "2018-03-01", end: "2018-05-01" }
+  test:        { start: "2018-05-01", end: "2018-08-01" }
+
+test:
+  status: frozen
+  rationale: Tiny edge-case fixtures used by integration tests only.
+  train:       { start: "2018-01-01", end: "2018-02-01" }
+  selection:   { start: "2018-02-01", end: "2018-02-15" }
+  calibration: { start: "2018-02-15", end: "2018-03-01" }
+  test:        { start: "2018-03-01", end: "2018-04-01" }
+
+e2e:
+  status: frozen
+  rationale: Small seeded synthetic dataset used by the end-to-end tests only.
+  train:       { start: "2017-01-01", end: "2017-12-01" }
+  selection:   { start: "2017-12-01", end: "2018-02-01" }
+  calibration: { start: "2018-02-01", end: "2018-04-01" }
+  test:        { start: "2018-04-01", end: "2018-07-01" }

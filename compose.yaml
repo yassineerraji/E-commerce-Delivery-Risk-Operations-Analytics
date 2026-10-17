@@ -1,0 +1,42 @@
+name: delivery-risk
+
+services:
+  db:
+    # Pinned minor version (resolved 2026-10-17). Do not use `latest`.
+    image: postgres:17.11-bookworm
+    environment:
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:-dr_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?POSTGRES_ADMIN_PASSWORD must be set in .env}
+      POSTGRES_DB: postgres
+    ports:
+      # Published on localhost only.
+      - "127.0.0.1:${DR_DB_PORT:-55432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    shm_size: 256mb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  app:
+    # Optional: `docker compose --profile app up app`. The dashboard can also run on the host.
+    build: .
+    profiles: ["app"]
+    environment:
+      DR_DB_HOST: db
+      DR_DB_PORT: "5432"
+      DR_READER_USER: ${DR_READER_USER:-dr_reader}
+      DR_READER_PASSWORD: ${DR_READER_PASSWORD:?DR_READER_PASSWORD must be set in .env}
+      DR_MODE: ${DR_MODE:-real}
+    ports:
+      - "127.0.0.1:8050:8050"
+    volumes:
+      - ./artifacts:/app/artifacts:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

@@ -1,0 +1,87 @@
+# Project configuration. Values here are design choices documented in docs/decision_log.md.
+# Credentials are NOT stored here: they come from environment variables (see .env.example).
+
+project:
+  name: delivery-risk
+  feature_version: v1
+
+# `real` is the only analysis mode. `test` and `e2e` are disposable databases used by the
+# automated tests (hand-written fixtures and a small seeded synthetic dataset).
+modes:
+  real:
+    database: delivery_risk_real
+    raw_dir: data/raw/olist
+    artifacts_dir: artifacts/real
+    reports_subdir: real
+  test:
+    # tiny hand-written edge cases (integration and temporal tests)
+    database: delivery_risk_test
+    raw_dir: tests/fixtures/edge_cases
+    artifacts_dir: artifacts/test
+    reports_subdir: test
+  e2e:
+    # small synthetic dataset for end-to-end, learning and dashboard tests
+    database: delivery_risk_test_e2e
+    raw_dir: artifacts/e2e/raw
+    artifacts_dir: artifacts/e2e
+    reports_subdir: e2e
+
+source:
+  name: Brazilian E-Commerce Public Dataset by Olist
+  kaggle_id: olistbr/brazilian-ecommerce
+  url: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+  license_stated_at_preparation: CC BY-NC-SA 4.0
+  # Set this to the dataset version shown on Kaggle when you download it (or leave null).
+  known_version: null
+
+analysis:
+  # Rankings/segments with fewer eligible delivered orders than this are hidden.
+  min_support_for_ranking: 30
+  # Group-level model metrics are also hidden when a group has fewer late orders than this
+  # (a lift computed on one or two positives is not interpretable).
+  min_positives_for_group_metrics: 10
+  capacity_fractions: [0.05, 0.10, 0.20]
+  primary_capacity_fraction: 0.10
+  # Coordinates outside this box are treated as outliers when building prefix centroids.
+  brazil_bbox: { lat_min: -34.0, lat_max: 5.5, lng_min: -74.5, lng_max: -34.0 }
+
+modeling:
+  random_seed: 20241017
+  # Feature groups removed in the sensitivity (ablation) analysis.
+  ablations:
+    no_catalog_static: [catalog]
+  logistic_regression_grid:
+    - { C: 0.01, class_weight: null }
+    - { C: 0.1, class_weight: null }
+    - { C: 1.0, class_weight: null }
+    - { C: 0.1, class_weight: balanced }
+  lightgbm_grid:
+    # 8 configurations; fixed in advance, evaluated on the selection block only.
+    - { num_leaves: 15, learning_rate: 0.05, n_estimators: 200, min_child_samples: 50 }
+    - { num_leaves: 15, learning_rate: 0.05, n_estimators: 400, min_child_samples: 50 }
+    - { num_leaves: 31, learning_rate: 0.05, n_estimators: 200, min_child_samples: 50 }
+    - { num_leaves: 31, learning_rate: 0.05, n_estimators: 400, min_child_samples: 50 }
+    - { num_leaves: 15, learning_rate: 0.05, n_estimators: 200, min_child_samples: 200 }
+    - { num_leaves: 31, learning_rate: 0.05, n_estimators: 400, min_child_samples: 200 }
+    - { num_leaves: 63, learning_rate: 0.03, n_estimators: 400, min_child_samples: 100 }
+    - { num_leaves: 15, learning_rate: 0.10, n_estimators: 150, min_child_samples: 100 }
+  one_hot_min_frequency: 20
+  probability_clip: 1.0e-6
+
+evaluation:
+  bootstrap:
+    n_resamples: 500
+    block: iso_week
+    seed: 20241017
+  calibration_bins: 10
+
+# Seeded synthetic dataset used ONLY by the end-to-end tests (tests/support/synthetic.py).
+synthetic:
+  seed: 7
+  n_orders: 12000
+  n_sellers: 300
+  n_products: 1800
+  start_date: "2017-01-01"
+  end_date: "2018-08-31"
+  # Simulated export date: deliveries after it are not observed (right censoring).
+  export_cutoff: "2018-09-20"
