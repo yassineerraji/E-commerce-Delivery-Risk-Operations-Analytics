@@ -9,7 +9,7 @@ COMPOSE := docker compose --env-file .env
 
 .DEFAULT_GOAL := help
 .PHONY: help setup db-up db-down db-reset ingest transform quality features train evaluate \
-        benchmark dashboard dashboard-docker test test-fast lint format report reproduce screenshots
+        benchmark dashboard dashboard-docker test test-fast lint format report final-report reproduce screenshots
 
 help: ## list the available targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-18s %s\n", $$1, $$2}'
@@ -71,6 +71,9 @@ format: ## apply Ruff formatting
 
 report: ## figures, evaluation report, executive summary, slides and CV bullets from saved artifacts
 	$(RUN) report --mode $(MODE)
+
+final-report: ## final PDF report in reports/final/ (needs tectonic: brew install tectonic)
+	$(RUN) final-report --mode $(MODE)
 
 screenshots: ## capture dashboard screenshots at 1440 and 1024 px (dashboard must be running, Chrome needed)
 	$(RUN) screenshots --mode $(MODE)

@@ -101,6 +101,12 @@ def cmd_report(args: argparse.Namespace) -> None:
     build_reports(args.mode)
 
 
+def cmd_final_report(args: argparse.Namespace) -> None:
+    from delivery_risk.final_report import build
+
+    build(args.mode, compile_pdf=not args.no_pdf)
+
+
 def cmd_dashboard(args: argparse.Namespace) -> None:
     from delivery_risk.dashboard.app import create_app
 
@@ -163,6 +169,10 @@ def build_parser() -> argparse.ArgumentParser:
     p = add("benchmark", cmd_benchmark, "SQL benchmark in an isolated schema")
     p.add_argument("--repeats", type=int, default=5)
     add("report", cmd_report, "figures and evaluation report from saved artifacts")
+    p = add(
+        "final-report", cmd_final_report, "final PDF report (figures, tables, LaTeX via tectonic)"
+    )
+    p.add_argument("--no-pdf", action="store_true", help="generate figures and tables only")
     p = add("dashboard", cmd_dashboard, "run the Dash application locally")
     p.add_argument("--host", default="127.0.0.1")
     p.add_argument("--port", type=int, default=8050)

@@ -24,7 +24,7 @@ which reports per month: scorable orders, label coverage, outcome populations, l
 
 Real-data audit (`reports/data_quality/real/coverage.md`): 2016 has 312 scorable orders and an empty
 November, so it is excluded from the blocks (its deliveries still feed seller histories); label
-coverage is ≥ 97% for every month from 2017-01 to 2018-08; the 13-week test block (19,368 scorable
+coverage is ≥ 95% for every month from 2017-01 to 2018-08 (lowest: 95.1% in January 2017); the 13-week test block (19,368 scorable
 orders, 718 late) ends more than a month before the last delivery in the source (2018-10-17). The
 calibration block's late rate (12.2%) differs strongly from the test block's (3.8%): an outcome shift,
 not a coverage problem, so it was not a reason to move boundaries. Consequence observed afterwards:

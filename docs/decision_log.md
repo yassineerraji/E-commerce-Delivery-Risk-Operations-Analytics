@@ -140,6 +140,15 @@ They are listed here because they were decided after the test results were seen.
   executive summary and other non-technical documents were removed; the final report
   (`reports/final/`) replaces them. The demo database was dropped.
 
+## 2026-10-17 — Final report
+
+- `reports/final/report.pdf` is compiled with Tectonic from `reports/final/report.tex`. Every number
+  in the text comes from `reports/final/generated/numbers.tex` and the generated tables, written by
+  `delivery-risk final-report` from the saved artifacts and read-only queries (descriptive analyses of
+  the frozen run only: no refit, no recalibration). Two statements were corrected while checking the
+  text against the data: label coverage is >= 95% in every block month (not 97%), and the selection
+  grid has 14 candidates.
+
 ## Status against the definition of done
 
 | Item | Status |

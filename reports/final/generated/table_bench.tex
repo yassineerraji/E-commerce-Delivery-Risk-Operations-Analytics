@@ -1,0 +1,9 @@
+Q1 & before & LATERAL join, no index & $>$300\,000 (timeout) & -- \\
+Q1 & rewrite & window functions over event streams, no index & 11{,}321.1 & -- \\
+Q1 & after & LATERAL join + composite indexes & 4{,}191.3 & 384 \\
+\addlinespace
+Q2 & before & no index & 18.0 & -- \\
+Q2 & after & index on order\_categories (category, order\_id) & 13.3 & 153 \\
+\addlinespace
+Q3 & before & no index & 10.5 & -- \\
+Q3 & after & composite index matching filter + order & 0.2 & 336 \\

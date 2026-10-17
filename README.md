@@ -9,6 +9,9 @@ PostgreSQL 17 does the heavy lifting (typed staging with quarantine, verified ke
 point-in-time features in SQL); scikit-learn and LightGBM are compared with simple baselines under a
 frozen temporal protocol; a three-page Dash application reads the marts with a read-only role.
 
+**Final report:** [reports/final/report.pdf](reports/final/report.pdf) — methodology, results, limitations
+and the next experiment, with every number generated from the saved artifacts.
+
 ![Operations overview on the real Olist data](reports/screenshots/real/overview_1440.png)
 *Operations overview page on the real data (1440 px).*
 
@@ -79,6 +82,7 @@ changed since training.
 | `make ingest transform quality features` | data pipeline steps |
 | `make train` / `make evaluate` | temporal protocol / final test (re-runs are logged as verification) |
 | `make report` | figures and the detailed evaluation report from saved artifacts |
+| `make final-report` | the final PDF report (`reports/final/`); requires [Tectonic](https://tectonic-typesetting.github.io/) |
 | `make benchmark` | SQL benchmark in the isolated `bench` schema |
 | `make dashboard` / `make dashboard-docker` | Dash app on the host / in Docker (gunicorn, read-only role) |
 | `make test` / `make test-fast` / `make lint` | all tests / unit tests only / Ruff lint + format check |

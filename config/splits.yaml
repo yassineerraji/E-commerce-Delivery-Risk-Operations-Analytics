@@ -15,7 +15,7 @@ real:
   rationale: >
     Audit (approval month): 2016 has 312 scorable orders and an empty November, so it is
     excluded from the blocks (its deliveries still feed seller histories). Label coverage is
-    >= 97% for every month 2017-01 to 2018-08; approvals end 2018-09-03 and deliveries
+    >= 95% for every month 2017-01 to 2018-08 (lowest 95.1%, 2017-01); approvals end 2018-09-03 and deliveries
     2018-10-17. Blocks: train 44,507 scorable / 2,452 late; selection 13,815 / 1,287;
     calibration 14,041 / 1,666; test 19,368 / 718 over 13 weeks, ending more than a month
     before the end of the source. The calibration block's late rate (12.2%) differs from the
