@@ -26,7 +26,8 @@ make export-app-db
 ```
 
 This writes `app.dump` (custom pg_dump format, file permissions 0600, ignored by Git). An existing
-file is never overwritten. To choose another file:
+file is never overwritten. If a verified export already exists, use it directly in step 3 instead
+of exporting again. To choose another file:
 
 ```bash
 uv run python -m delivery_risk.deployment export /tmp/delivery-risk.dump
@@ -40,9 +41,18 @@ exporting so the snapshot corresponds to the finished run.
 
 ## 3. Restore and create a dedicated reader
 
-Install PostgreSQL client tools version **17 or later** (`pg_restore` must be on PATH). Use the
-database owner's credentials from Render's database Info page. Set these **in your local terminal**,
-using the external hostname and the actual database/user names:
+Install PostgreSQL client tools version **17 or later** (`pg_restore` must be on PATH).
+On macOS with Homebrew, install them if needed and select them in the current terminal:
+
+```bash
+brew install postgresql@17
+export PATH="$(brew --prefix postgresql@17)/bin:$PATH"
+pg_restore --version
+```
+
+The version output must show 17 or later. There is no need to start a Homebrew PostgreSQL server.
+Use the database owner's credentials from Render's database Info page. Set the destination
+**in your local terminal**, using the external hostname and the actual database/user names:
 
 ```bash
 export PGHOST=your-external-hostname
@@ -95,6 +105,8 @@ Render supplies `PORT`; Gunicorn binds to `0.0.0.0:$PORT`. There is no artifact 
 
 Automatic deploys are disabled. The initial Blueprint application still builds and deploys once;
 later releases require **Manual Deploy** in Render. No GitHub Actions deployment is configured.
+Blueprint configuration sync is a separate setting: to also apply future `render.yaml` changes
+manually, set **Auto Sync** to **No** on the Blueprint's Settings page.
 The Docker build context excludes local secrets, exports, datasets, reports and model artifacts.
 
 ## 5. Verify the deployed snapshot

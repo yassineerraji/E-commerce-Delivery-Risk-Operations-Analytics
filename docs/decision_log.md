@@ -194,3 +194,19 @@ They are listed here because they were decided after the test results were seen.
   The test web container was stopped. TLS to an actual Render database and Render-side Blueprint
   validation remain to be checked when resources exist; nothing has been published or pushed.
 - Final verification: 113 pytest tests passed; Ruff lint, formatting and `git diff --check` passed.
+
+## 2026-10-17 — GitHub deployment readiness audit
+
+- The deployment commit had been recorded locally but had not reached GitHub. Pushed it to `main`
+  and configured local upstream tracking. GitHub Actions run `39059439370` passed the lint checks
+  and all 113 tests on PostgreSQL 17. The current remote tree includes the Render configuration,
+  deployment commands and guide; it excludes local .env, raw CSVs and database dumps. A targeted
+  scan of tracked files found no private keys, GitHub tokens, AWS access keys or credential URLs.
+- Installed the native PostgreSQL 17.11 client tools on the development Mac, without starting a
+  Homebrew database server. Verified the real dump with a second isolated restore using the native
+  client, including schema isolation, reader grants, write rejection and all three page layouts;
+  removed the temporary database and roles. Select the versioned client directory in PATH before
+  restoring to Render; system-wide PostgreSQL command links were not changed.
+- Clarified the existing-dump path and the independent Blueprint Auto Sync setting in the guide.
+  Actual Render account setup, resource creation, cloud credentials and public release remain
+  outside this audit; no application was deployed.
