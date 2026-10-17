@@ -23,4 +23,5 @@ RUN uv sync --frozen --no-dev
 RUN useradd --create-home --uid 10001 app
 USER app
 EXPOSE 8050
-CMD ["/app/.venv/bin/gunicorn", "--bind", "0.0.0.0:8050", "--workers", "2", "--timeout", "60", "delivery_risk.dashboard.wsgi:server"]
+# PORT and WEB_CONCURRENCY are provided by hosting platforms such as Render (defaults for local use).
+CMD ["sh", "-c", "exec /app/.venv/bin/gunicorn --bind 0.0.0.0:${PORT:-8050} --workers ${WEB_CONCURRENCY:-2} --timeout 60 --access-logfile - delivery_risk.dashboard.wsgi:server"]

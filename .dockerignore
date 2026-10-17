@@ -1,0 +1,15 @@
+.git
+.env
+.env.*
+.venv
+.pytest_cache
+.ruff_cache
+**/__pycache__
+data
+artifacts
+reports
+tests
+docs
+CLAUDE.md
+*.dump
+*.dump.partial

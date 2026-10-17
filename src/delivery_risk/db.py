@@ -38,6 +38,7 @@ def _connect(
         raise DatabaseUnavailable(
             f"No password configured for role {user!r}. Run `make setup` to create a local .env."
         )
+    extra = {"sslmode": settings.sslmode} if settings.sslmode else {}
     try:
         return psycopg.connect(
             host=settings.host,
@@ -48,6 +49,7 @@ def _connect(
             autocommit=autocommit,
             connect_timeout=5,
             application_name="delivery-risk",
+            **extra,
         )
     except psycopg.OperationalError as exc:
         # Do not echo the connection string: it would include the password.
@@ -64,7 +66,9 @@ def admin_connect(dbname: str = "postgres") -> psycopg.Connection:
 
 def connect(mode: str, role: str = "pipeline", autocommit: bool = False) -> psycopg.Connection:
     s = db_settings()
-    database = mode_config(mode).database
+    cfg = mode_config(mode)
+    # A hosting override must never redirect fixture resets or e2e writes to the real database.
+    database = (s.database if mode == "real" else None) or cfg.database
     if role == "pipeline":
         return _connect(database, s.pipeline_user, s.pipeline_password, autocommit)
     if role == "reader":

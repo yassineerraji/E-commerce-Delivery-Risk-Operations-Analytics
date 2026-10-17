@@ -39,3 +39,7 @@ reports/*/e2e/
 
 # Example report from another project (local reference only)
 /report.pdf
+
+# Local database exports for deployment
+*.dump
+*.dump.partial

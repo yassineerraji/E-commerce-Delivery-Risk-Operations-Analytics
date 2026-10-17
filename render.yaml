@@ -1,0 +1,28 @@
+# Prepared configuration only. Applying this Blueprint creates a public web service.
+# Create and populate PostgreSQL 17 first; see docs/deployment.md.
+services:
+  - type: web
+    name: delivery-risk
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    autoDeployTrigger: "off"
+    healthCheckPath: /health
+    envVars:
+      - key: DR_MODE
+        value: real
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: DR_DB_HOST
+        sync: false
+      - key: DR_DB_PORT
+        value: "5432"
+      - key: DR_DB_NAME
+        sync: false
+      - key: DR_DB_SSLMODE
+        value: require
+      - key: DR_READER_USER
+        value: dr_dashboard
+      - key: DR_READER_PASSWORD
+        sync: false

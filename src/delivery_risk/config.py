@@ -53,6 +53,9 @@ class DbSettings:
     pipeline_password: str | None
     reader_user: str
     reader_password: str | None
+    # Deployment overrides (e.g. a managed PostgreSQL): database name and TLS mode.
+    database: str | None = None
+    sslmode: str | None = None
 
 
 def db_settings() -> DbSettings:
@@ -67,6 +70,8 @@ def db_settings() -> DbSettings:
         pipeline_password=env.get("DR_PIPELINE_PASSWORD"),
         reader_user=env.get("DR_READER_USER", "dr_reader"),
         reader_password=env.get("DR_READER_PASSWORD"),
+        database=env.get("DR_DB_NAME") or None,
+        sslmode=env.get("DR_DB_SSLMODE") or None,
     )
 
 

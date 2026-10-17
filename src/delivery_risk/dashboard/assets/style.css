@@ -126,3 +126,9 @@ body {
 .kv dt { color: var(--text-secondary); }
 .kv dd { margin: 0; font-variant-numeric: tabular-nums; word-break: break-all; }
 .limits li { margin-bottom: 4px; }
+
+.app-footer {
+  max-width: 1400px; margin: 0 auto; padding: 12px 24px 24px; font-size: 12px; color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+.app-footer a { color: var(--accent-strong); }

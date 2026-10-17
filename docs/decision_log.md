@@ -166,4 +166,31 @@ They are listed here because they were decided after the test results were seen.
 | Tests, lint, UI validation reported honestly | done; CI green |
 | README, documentation, final report | done (`reports/final/`) |
 | No secret, raw dataset or sensitive artifact versioned | done |
-| Public deployment | not done — requires a hosting choice and explicit approval |
+| Public deployment | prepared for Render; not published — explicit approval still required |
+
+## 2026-10-17 — Render deployment preparation
+
+- Preserved and reviewed the existing local deployment changes: real-database name override,
+  optional TLS, platform-provided Gunicorn port, `/health` liveness and visible Olist attribution.
+  Added the licence link and description of adaptations. The database-name override cannot
+  redirect test/e2e connections, preserving fixture isolation.
+- Added a Render Docker Blueprint (Frankfurt, one worker, free web instance, automatic deploys
+  disabled), a deployment guide and a Docker build-context exclusion file. The guide creates and
+  populates PostgreSQL 17 before creating the public web service. A persistent deployment needs
+  a paid database because Render's free database expires after 30 days; no paid resources created.
+- Added explicit export, transactional restore and reader-provisioning commands. Dumps are private,
+  ignored by Git and published atomically without overwriting backups. Restore refuses existing
+  application schemas; reader provisioning refuses to alter existing roles. No cloud credentials
+  are stored in the repository.
+- Verified the actual 99,441-order export (about 50 MiB) by restoring into a temporary PostgreSQL 17
+  database owned by a non-superuser with CREATEROLE. The reader rendered all three page layouts;
+  DELETE and CREATE TABLE were denied even after disabling its default read-only transaction
+  setting. Existing-schema and existing-role protection checks passed. Temporary database and
+  roles were removed. The host has pg_restore 14/15, so this verification used the PostgreSQL 17
+  client in Docker; the deployment guide requires a version 17+ client for the native command.
+- Built the Docker image and verified custom `PORT=10000`, HTTP health/page routes and all three
+  page layouts against the local real database, without an artifact mount. Confirmed local .env,
+  CSV files and dump are absent from the image. Inspected overview screenshots at 1440/1024 px.
+  The test web container was stopped. TLS to an actual Render database and Render-side Blueprint
+  validation remain to be checked when resources exist; nothing has been published or pushed.
+- Final verification: 113 pytest tests passed; Ruff lint, formatting and `git diff --check` passed.

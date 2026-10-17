@@ -9,7 +9,7 @@ COMPOSE := docker compose --env-file .env
 
 .DEFAULT_GOAL := help
 .PHONY: help setup db-up db-down db-reset ingest transform quality features train evaluate \
-        benchmark dashboard dashboard-docker test test-fast lint format report final-report reproduce screenshots
+        benchmark dashboard dashboard-docker export-app-db test test-fast lint format report final-report reproduce screenshots
 
 help: ## list the available targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-18s %s\n", $$1, $$2}'
@@ -55,6 +55,9 @@ dashboard: ## run the Dash application on http://127.0.0.1:8050
 
 dashboard-docker: ## run the dashboard in Docker (DR_MODE taken from MODE)
 	DR_MODE=$(MODE) $(COMPOSE) --profile app up --build app
+
+export-app-db: ## export the local real dashboard schemas to a new git-ignored app.dump
+	$(UV) run python -m delivery_risk.deployment export app.dump
 
 test: ## all tests: unit, integration, temporal and dashboard (PostgreSQL required for most)
 	$(UV) run pytest

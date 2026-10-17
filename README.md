@@ -65,7 +65,7 @@ Tested on macOS 15 (arm64), Docker Desktop 28.4, Python 3.12.13.
    ```
 3. Tests and lint (they use disposable test databases, never the real one):
    ```bash
-   make test           # 105 tests: unit, integration, temporal leakage, dashboard
+   make test           # 113 tests: unit, integration, temporal leakage, dashboard, deployment
    make lint
    ```
 
@@ -127,7 +127,7 @@ composite index-only scan (11.3 s for a window-function rewrite); the risk-revie
 from 10.5 ms to 0.2 ms with an index; the overview aggregation (18 ms) did not justify one. Results
 are identical across variants.
 
-**Tests.** 105 tests (unit, integration against PostgreSQL 17, temporal leakage, dashboard) and Ruff,
+**Tests.** 113 tests (unit, integration against PostgreSQL 17, temporal leakage, dashboard, deployment) and Ruff,
 run by GitHub Actions against a PostgreSQL 17.11 service container. The SQL seller history was also
 checked against an independent Python implementation on all 99,991 real (order, seller) rows.
 
@@ -151,6 +151,13 @@ checked against an independent Python implementation on all 99,991 real (order, 
 Brazilian E-Commerce Public Dataset by Olist, version 2, available on Kaggle
 (<https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce>) under **CC BY-NC-SA 4.0**. Raw data
 is not redistributed in this repository.
+
+## Deploy on Render
+
+See [the deployment guide](docs/deployment.md) for PostgreSQL 17 setup, `make export-app-db`,
+transactional restore, reader-role provisioning and the prepared [render.yaml](render.yaml).
+The Docker image supports the hosting platform's `PORT`, a configurable real database name and TLS,
+and `/health` for process liveness. Public deployment requires the project owner's explicit approval.
 
 ## Documentation
 
